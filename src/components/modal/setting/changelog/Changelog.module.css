@@ -1,0 +1,84 @@
+.Changelog {
+  margin: auto;
+  padding: 1rem;
+  width: 100%;
+  height: calc(var(--height) + 1rem); /* + setting's top padding */
+  font-size: 1.2rem;
+  border-radius: 10px;
+  user-select: none;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  animation: slide-in 1s forwards;
+  box-shadow: 0 0 5px var(--shadow);
+  transition: var(--theme-transition), var(--scrollbar-transition),
+    box-shadow 1s;
+  color: var(--text);
+  background-color: var(--background-2);
+}
+.Changelog:focus {
+  outline: none;
+}
+
+.Changelog dl {
+  margin: 0.5rem 0;
+}
+
+.Changelog dt {
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+  text-align: center;
+  transition: var(--theme-transition);
+  background-color: var(--background-3);
+}
+.Changelog dt:hover {
+  background-color: var(--background);
+}
+
+.Changelog dd {
+  margin: 0 1rem;
+  text-align: start;
+}
+
+.Exit {
+  animation: slide-out 0.75s forwards;
+}
+
+.Tag {
+  color: #1cb8b8;
+}
+
+.CloseButton {
+  margin-left: auto;
+  position: sticky;
+  top: 0;
+}
+
+.Icons {
+  margin: 4rem auto 0;
+  width: 5rem;
+}
+
+.Reload {
+  cursor: pointer;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(-100vh);
+  }
+}
+
+@keyframes slide-out {
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+@media (max-height: 400px) {
+  .Changelog {
+    height: 100%;
+  }
+}

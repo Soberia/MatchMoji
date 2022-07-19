@@ -1,0 +1,61 @@
+.App {
+  --default-fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: var(--default-fonts);
+  transition: var(--theme-transition), width 0.5s; /* fluid window resizing */
+  background-color: var(--background);
+}
+
+.App * {
+  box-sizing: border-box;
+}
+
+.Panels {
+  width: 100%;
+  height: 100%;
+}
+
+.Panels {
+  display: flex;
+  flex-direction: column;
+  touch-action: manipulation;
+}
+
+.FocusOut {
+  animation: focus-out 1s forwards;
+}
+
+.Loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.Loading > :first-child {
+  margin: auto;
+  width: 20%;
+}
+
+.Reload > :first-child {
+  width: 10%;
+  cursor: pointer;
+}
+
+@keyframes focus-out {
+  to {
+    filter: blur(5px);
+  }
+}
+
+@media (max-width: 600px) {
+  .Loading > :first-child {
+    width: 30%;
+  }
+
+  .Reload > :first-child {
+    width: 15%;
+  }
+}

@@ -1,0 +1,9 @@
+.Link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--theme-transition);
+  color: var(--link);
+}
+.Link:hover {
+  text-decoration: underline;
+}

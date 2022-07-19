@@ -1,0 +1,32 @@
+{
+  "name": "MatchMoji",
+  "short_name": "MatchMoji",
+  "description": "Simple fun game with emojis. Just look for identical emojis before running out of time!",
+  "display": "standalone",
+  "theme_color": "#f3f3f3",
+  "background_color": "#f3f3f3",
+  "orientation": "any",
+  "lang": "en-US",
+  "start_url": ".",
+  "scope": ".",
+  "categories": ["games"],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "icon192.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon512.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+.Emoji {
+  --size: 3rem;
+  --emoji-fonts: 'Segoe UI Emoji Modified', 'Noto Color Emoji',
+    'Apple Color Emoji';
+  width: var(--size);
+  font-size: var(--size);
+
+  /* Vertically aligning to the all other fonts.
+  Without a default font fallback, font ascender
+  alters in Firefox on operation systems other than Widnows. */
+  font-family: var(--emoji-fonts), var(--default-fonts);
+  line-height: 100%;
+
+  /* Horizontally aligning to the all other fonts.
+  Without this, on chromium based browsers (or its related
+  to font's typography) `width` of emoji character is bigger
+  than value of `font-size`. */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Twemoji {
+  font-family: Twemoji, var(--emoji-fonts);
+}
+
+.NotoColorEmoji {
+  font-family: NotoColorEmoji, var(--emoji-fonts);
+}
+
+/* Overriding `Segoe UI Emoji` font default ascender
+value to vertically align with other fonts. */
+@font-face {
+  font-family: 'Segoe UI Emoji Modified';
+  src: local('Segoe UI Emoji');
+  ascent-override: 100%;
+}

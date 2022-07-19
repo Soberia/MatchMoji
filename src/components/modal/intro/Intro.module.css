@@ -1,0 +1,45 @@
+.EmojiBox {
+  margin: 1rem auto;
+  padding: 1rem 0.5rem;
+  min-width: 15rem;
+  min-height: 15rem;
+  max-width: 20rem;
+  max-height: 20rem;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  border-radius: 20px;
+  box-shadow: 0 0 10px var(--shadow);
+}
+
+.EmojiBox > :first-child {
+  position: absolute;
+  z-index: 1;
+  top: 20%;
+  right: 10%;
+  animation: move 3s infinite;
+}
+
+.EmojiBox > :not(:first-child) {
+  flex-basis: 33%;
+}
+
+.EmojiBox > :nth-child(4) {
+  animation: grow 3s ease 1.5s infinite;
+}
+
+.EmojiBox > :nth-child(5) {
+  animation: grow 3s infinite;
+}
+
+@keyframes move {
+  50% {
+    transform: translate(-12.5rem, 4.5rem);
+  }
+}
+
+@keyframes grow {
+  50% {
+    transform: scale(1.5);
+  }
+}

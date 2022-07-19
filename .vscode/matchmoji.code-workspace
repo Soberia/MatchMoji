@@ -1,0 +1,115 @@
+{
+	"settings": {
+		"files.exclude": {
+			"**/node_modules": true
+		}
+	},
+	"folders": [
+		{
+			"name": "MatchMoji",
+			"path": "../"
+		}
+	],
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "MatchMoji",
+				"type": "msedge",
+				"request": "launch",
+				"url": "https://localhost:3000",
+				"webRoot": "${workspaceFolder}"
+			},
+			{
+				"name": "MatchMoji (Attach)",
+				"type": "msedge",
+				"request": "attach",
+				"port": 9222,
+				"url": "https://localhost:3000*",
+				"webRoot": "${workspaceFolder}"
+			}
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"type": "shell",
+				"label": "Development (Windows Terminal)",
+				"command": "./bin/main.sh -t",
+				"presentation": {
+					"reveal": "silent",
+					"close": true
+				},
+				"icon": {
+					"id": "play",
+					"color": "terminal.ansiRed"
+				},
+				"problemMatcher": []
+			},
+			{
+				"type": "shell",
+				"label": "Port Forwarder",
+				"command": "./bin/port-forwarder.ps1",
+				"presentation": {
+					"reveal": "silent"
+				},
+				"options": {
+					"shell": {
+						"executable": "powershell.exe",
+						"args": [
+							"-ExecutionPolicy",
+							"Bypass",
+							"-File"
+						]
+					}
+				},
+				"icon": {
+					"id": "reply",
+					"color": "terminal.ansiGreen"
+				},
+				"problemMatcher": []
+			},
+			{
+				"type": "shell",
+				"label": "Calculate SLOC",
+				"command": "./bin/main.sh --sloc",
+				"icon": {
+					"id": "graph-line",
+					"color": "terminal.ansiBlack"
+				},
+				"problemMatcher": []
+			},
+			{
+				"type": "shell",
+				"label": "Generate Backup",
+				"command": "./bin/main.sh --backup",
+				"icon": {
+					"id": "save",
+					"color": "terminal.ansiBlue"
+				},
+				"problemMatcher": []
+			},
+			{
+				"type": "shell",
+				"label": "Emoji Generator",
+				"command": "./bin/main.sh --emoji-generator",
+				"icon": {
+					"id": "smiley",
+					"color": "terminal.ansiYellow"
+				},
+				"problemMatcher": []
+			},
+			{
+				"type": "shell",
+				"label": "Font Generator",
+				"command": "./bin/main.sh --font-generator",
+				"icon": {
+					"id": "text-size",
+					"color": "terminal.ansiMagenta"
+				},
+				"problemMatcher": []
+			}
+		]
+	}
+}

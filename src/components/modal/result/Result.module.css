@@ -1,0 +1,92 @@
+.Arrow {
+  padding: 0.6rem 0.5rem 0;
+  width: 4rem;
+}
+
+.Arrow > svg {
+  stroke: var(--text);
+}
+
+.Trophy {
+  position: relative;
+  animation: trophy 0.3s;
+}
+
+.Trophy > :last-child {
+  --size: 10rem;
+  width: initial;
+}
+
+.Confetti {
+  left: 50%;
+  transform: translateY(-2rem);
+}
+
+.NewRecord {
+  margin: 0 auto 1rem;
+  padding: 0.2rem 1rem;
+  width: fit-content;
+  font-size: 2rem;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  color: #187b88;
+  box-shadow: 0 0 10px 3px var(--shadow);
+}
+
+.NewRecord::before {
+  content: '';
+  width: 1px;
+  position: absolute;
+  top: 50%;
+  border-radius: 50%;
+  transform: translateX(-20rem);
+  animation: shining 2s 2s infinite;
+  box-shadow: 0 0 40px 20px #00ccff77;
+}
+
+@keyframes trophy {
+  from {
+    transform: translateY(3rem) scale(0.6);
+  }
+}
+
+@keyframes shining {
+  to {
+    transform: translateX(20rem);
+  }
+}
+
+@media (max-height: 450px) {
+  .Confetti {
+    transform: translateY(-3rem);
+  }
+
+  .NewRecord {
+    position: absolute;
+    top: -3.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .Button {
+    margin-top: 0;
+  }
+}
+
+@media (max-height: 400px) {
+  .Trophy > :last-child {
+    --size: 7.5rem;
+  }
+}
+
+@media (max-height: 350px) {
+  .NewRecord {
+    font-size: 1.5rem;
+    top: -3rem;
+  }
+
+  .Trophy > :last-child {
+    --size: 5rem;
+  }
+}

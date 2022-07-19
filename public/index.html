@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MatchMoji - Fun with Emojis &#127922;</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3f3f3" />
+    <meta name="description" content="Simple fun game with emojis. Just look for identical emojis before running out of time!" />
+    <meta name="keywords" content="match emoji, emoji matcher, emoji game, emoji game react, emoji game javascript" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="MatchMoji - Fun with Emojis 🎲" />
+    <meta name="twitter:description" content="Simple fun game with emojis. Just look for identical emojis before running out of time!" />
+    <meta name="twitter:image" content="%REACT_APP_DOMAIN%%PUBLIC_URL%/icon512.webp" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MatchMoji - Fun with Emojis 🎲" />
+    <meta property="og:description" content="Simple fun game with emojis. Just look for identical emojis before running out of time!" />
+    <meta property="og:image" content="%REACT_APP_DOMAIN%%PUBLIC_URL%/icon512.webp" /> <!-- Doesn't support WebP! -->
+    <meta property="og:url" content="%REACT_APP_DOMAIN%%PUBLIC_URL%" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.webmanifest" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="any" /> <!-- for Safari -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.svg" type="image/svg+xml" />
+    <link rel="mask-icon" href="%PUBLIC_URL%/favicon.svg" color="#333" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f3f3f3;
+      }
+      #root {
+        height: 100vh;
+        display: flex;
+      }
+      #root > img {
+        margin: auto;
+        width: 20%;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #222;
+        }
+      }
+      @media (max-width: 600px) {
+        #root > img {
+          width: 30%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript</noscript>
+    <div id="root">
+      <img src="%PUBLIC_URL%/favicon.svg" draggable="false" alt="" />
+    </div>
+  </body>
+</html>

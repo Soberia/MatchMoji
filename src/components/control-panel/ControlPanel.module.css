@@ -1,0 +1,212 @@
+.ControlPanel {
+  width: 100%;
+  min-height: 6rem;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  user-select: none;
+  transition: var(--theme-transition), box-shadow var(--theme-transition-time);
+  box-shadow: 0 2px 15px -2px var(--shadow);
+  background-color: var(--background-3);
+  color: #666;
+}
+
+.ControlPanel > :first-child,
+.ControlPanel > :last-child {
+  display: flex;
+  align-items: center;
+}
+
+.Timer {
+  font-size: 4.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.Timer span {
+  margin: 0 0.2rem;
+  padding: 0 0.2rem;
+  border-radius: 10px;
+  background-color: var(--background-2);
+  transition: var(--theme-transition);
+}
+
+.Stats {
+  margin: auto 1rem;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  height: 90%;
+  font-size: 3rem;
+}
+
+.Stats > :first-child {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.StatsExpand {
+  transform: translateX(-0.5rem);
+}
+
+.Score,
+.Score > svg,
+.Score > svg > circle {
+  transition: all 0.3s;
+}
+
+.ScoreUp {
+  --color: #008543;
+}
+
+.ScoreDown {
+  --color: #860043;
+}
+
+.ScoreUp,
+.ScoreDown {
+  fill: var(--color);
+  color: var(--color);
+}
+
+.ScoreUp > circle,
+.ScoreDown > circle {
+  stroke: var(--color);
+}
+
+.Details {
+  margin-left: 1rem;
+  font-size: 1.4rem;
+}
+
+.Details span {
+  padding: 0 0.5rem;
+  border-radius: 10px;
+  background-color: var(--background-2);
+  transition: var(--theme-transition);
+}
+
+.Icon {
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  width: 4.5rem;
+}
+
+@media (max-width: 900px) {
+  .Timer {
+    font-size: 4rem;
+  }
+
+  .Stats {
+    margin-right: 0.5rem;
+    font-size: 2.5rem;
+  }
+
+  .Stats > :first-child {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .StatsExpand {
+    transform: translateX(-0.25rem);
+  }
+
+  .Details {
+    font-size: 1.2rem;
+  }
+
+  .Icon {
+    width: 4rem;
+  }
+}
+
+@media (max-width: 750px) {
+  .ControlPanel {
+    min-height: 5.5rem;
+  }
+
+  .Timer {
+    font-size: 3.5rem;
+  }
+
+  .Stats {
+    font-size: 2rem;
+  }
+
+  .Stats > :first-child {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .Details {
+    margin-left: 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  .Icon {
+    width: 3.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .Stats {
+    margin-right: 0.25rem;
+  }
+
+  .StatsExpand {
+    background-color: var(--background);
+  }
+
+  .StatsExpand > :not(:last-child) {
+    display: none;
+  }
+
+  .Details {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .TimerShadow .Timer {
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+
+  .Stats {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .Stats {
+    font-size: 1.5rem;
+  }
+
+  .Icon {
+    margin-left: 0.25rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .ControlPanel {
+    min-height: 5rem;
+  }
+
+  .Timer {
+    font-size: 3rem;
+  }
+
+  .Stats {
+    font-size: 1.25rem;
+  }
+
+  .Stats > :first-child {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .Icon {
+    margin-left: 0.2rem;
+    width: 3rem;
+  }
+}

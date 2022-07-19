@@ -1,0 +1,84 @@
+{
+  "name": "@soberia/matchmoji",
+  "version": "1.0.0",
+  "description": "Simple fun game with emojis. Just look for identical emojis before running out of time!",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://soberia.github.io/matchmoji/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Soberia/matchmoji.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "author": {
+    "name": "Saber Hayati",
+    "email": "SaberHayati@outlook.com"
+  },
+  "dependencies": {
+    "dom-confetti": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.6",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "./bin/main.sh --production-builder",
+    "eject": "react-scripts eject"
+  },
+  "bin": {
+    "matchmoji-generate": "./bin/static-generator.mjs"
+  },
+  "files": [
+    "lib",
+    "bin/*.mjs",
+    "src/**/!(index|service-worker).{ts,tsx}"
+  ],
+  "exports": {
+    ".": {
+      "import": "./lib/entry.js",
+      "types": "./lib/entry.d.ts"
+    },
+    "./lazy": {
+      "import": "./lib/components/Lazy.js",
+      "types": "./lib/components/Lazy.d.ts"
+    }
+  },
+  "module": "./lib/entry.js",
+  "types": "./lib/entry.d.ts",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": true,
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "trailingComma": "none"
+  },
+  "browserslist": {
+    "production": [
+      "> 0.2% and supports es6-module",
+      "not dead"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

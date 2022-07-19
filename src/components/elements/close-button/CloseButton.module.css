@@ -1,0 +1,15 @@
+.CloseButton {
+  padding: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 3px;
+  opacity: 0.5;
+}
+.CloseButton:hover {
+  opacity: 1;
+  cursor: pointer;
+  background-color: var(--background-3);
+}
+.CloseButton:active {
+  background-color: var(--background);
+}

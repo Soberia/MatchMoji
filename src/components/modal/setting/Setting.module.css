@@ -1,0 +1,162 @@
+.Content {
+  --height: 35rem;
+}
+
+.Options {
+  height: var(--height);
+  overflow-y: scroll;
+
+  /* Moving scrollbar to the left side.
+  Using `translate3d` to prevent visual glitches. */
+  transform: scaleX(-1) translate3d(0, 0, 0);
+}
+
+.Options > * {
+  margin-right: 1rem;
+  transform: inherit;
+
+  /* On Chormium based browsers, scrollbar slightly
+  overlaps the element. Making a little gap between. */
+  margin-left: 0.1rem;
+}
+
+.Emoji,
+.FontLoading {
+  --size: 3.5rem;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.FontLoading {
+  width: var(--size);
+  height: var(--size);
+  cursor: default;
+}
+
+.Switch {
+  --size: 4.5rem !important;
+  margin-left: auto;
+}
+
+.EmojiGroups {
+  padding: 1rem 0.5rem 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 5px;
+  border: 2px dotted var(--shadow);
+  transition: border var(--theme-transition-time);
+}
+
+.EmojiGroups > div {
+  margin: 0.5rem 0.2rem;
+  line-height: 100%;
+  display: flex;
+  flex-basis: 10%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.EmojiGroup {
+  --size: 2.5rem;
+  margin-bottom: 0.7rem;
+  position: relative;
+  cursor: pointer;
+}
+.EmojiGroup::before {
+  content: '';
+  width: 130%;
+  height: 130%;
+  border-radius: 5px;
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background-color 0.5s;
+}
+
+.EmojiGroupSelected::before {
+  background-color: var(--background);
+}
+
+.Notice {
+  margin: 0 auto;
+  font-size: 1rem;
+  animation: fade-in 0.5s;
+}
+
+.Notice > span:last-child {
+  animation: fade-in 0.5s;
+}
+
+.About {
+  margin-top: 0.5rem;
+}
+
+.About > span:first-of-type {
+  cursor: pointer;
+  color: grey;
+}
+
+.Warning {
+  line-height: 100%;
+  position: relative;
+  top: 0.4rem;
+  color: #40a060;
+}
+
+.InadequateGroups {
+  color: #a04040;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 450px) {
+  .EmojiGroups > div {
+    flex-basis: 18%;
+  }
+
+  .EmojiGroup {
+    --size: 3rem;
+  }
+}
+
+@media (max-height: 500px) {
+  .Content {
+    --height: 30rem;
+  }
+}
+
+@media (max-height: 450px) {
+  .Content {
+    --height: 25rem;
+  }
+
+  /* only on Safari */
+  @media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-appearance: none) {
+      .Notice {
+        /* Reverting upscaled font size on landscape orientation. */
+        font-size: 0.5rem;
+      }
+    }
+  }
+}
+
+@media (max-height: 400px) {
+  .Content {
+    --height: 20rem;
+  }
+}
+
+@media (max-height: 350px) {
+  .Content {
+    --height: 15rem;
+  }
+}

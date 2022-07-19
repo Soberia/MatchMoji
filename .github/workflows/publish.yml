@@ -1,0 +1,62 @@
+name: Publish NPM Package and the Github Pages
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com
+
+      - name: Get the Package Version
+        id: package-json
+        run: |
+          echo ::set-output name=version::$(grep -Po \
+            '"version": "\K.*\d' package.json | echo "v$(cat -)")
+
+      - name: Installing Build Requirements
+        run: npm install
+
+      - name: Deploy the Github Pages to the Separate Branch
+        id: gh-pages
+        env:
+          BRANCH: gh-pages # Destination branch
+          DIST_DIR: docs # Destination directory
+          SRC_DIR: build # Source directory
+          PUBLIC_URL: /matchmoji/ # Trailing slash must be preserved 
+          TAG: ${{ steps.package-json.outputs.version }}
+        run: |
+          npm run build
+          git config --global user.name $GITHUB_ACTOR
+          git config --global user.email $GITHUB_ACTOR@users.noreply.github.com
+          git fetch
+          # Creating empty branch only if not exist
+          git switch $BRANCH 2>/dev/null || git switch --orphan $BRANCH
+          git rm -rf --ignore-unmatch $DIST_DIR
+          mv $SRC_DIR $DIST_DIR
+          git add $DIST_DIR
+          if [ ! -z "$(git status --porcelain=v1 2>/dev/null)" ]; then
+            git commit -m "Bumped to $TAG"
+            git push origin $BRANCH
+            git switch main
+          else
+            echo "No changes detected, nothing to publish"
+            exit 1
+          fi
+
+      - name: Publish NPM Package to the GitHub Packages
+        if: steps.gh-pages.conclusion == 'success'
+        run: |
+          npm run build # Replcaing previous build
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
