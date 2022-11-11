@@ -54,7 +54,7 @@ for ($i = 0; $i -lt $Ports.length; $i++) {
     $Port = $Ports[$i];
     netsh interface portproxy delete v4tov4 listenport=$Port listenaddress=$Address;
     netsh interface portproxy add v4tov4 listenport=$Port listenaddress=$Address `
-        connectport=$port connectaddress=$WslIp;
+        connectport=$Port connectaddress=$WslIp;
 }
 
 if (!$Silent) {
