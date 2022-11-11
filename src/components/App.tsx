@@ -1,4 +1,4 @@
-import {createContext, useRef, useState, useEffect} from 'react';
+import {createContext, useMemo, useRef, useState, useEffect} from 'react';
 
 import './Common.module.css';
 import CSS from './App.module.css';
@@ -211,8 +211,10 @@ export default function App(props: Props) {
 
   return (
     <div ref={self} className={[CSS.App, CSSTheme[theme]].join(' ')}>
-      <settingContext.Provider value={[setting, setSetting]}>
-        <historyContext.Provider value={[history, setHistory]}>
+      <settingContext.Provider
+        value={useMemo(() => [setting, setSetting], [setting, setSetting])}>
+        <historyContext.Provider
+          value={useMemo(() => [history, setHistory], [history, setHistory])}>
           <Sound
             setting={setting}
             settingPrevious={settingPrevious.current}
