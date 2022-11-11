@@ -139,12 +139,10 @@
   }
 
   /* only on Safari */
-  @media not all and (min-resolution: 0.001dpcm) {
-    @supports (-webkit-appearance: none) {
-      .Notice {
-        /* Reverting upscaled font size on landscape orientation. */
-        font-size: 0.5rem;
-      }
+  @supports (font: -apple-system-body) and (-webkit-appearance: none) {
+    .Notice {
+      /* Reverting upscaled font size on landscape orientation. */
+      font-size: 0.5rem;
     }
   }
 }
