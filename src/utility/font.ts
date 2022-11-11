@@ -2,7 +2,6 @@ import {useState, useEffect, useContext} from 'react';
 
 import TwemojiColr0 from '../assets/twemoji-colr0.woff2';
 import NotoColorEmojiColr1 from '../assets/noto-color-emoji-colr1.woff2';
-import NotoColorEmojiOtSvg from '../assets/noto-color-emoji-otsvg.woff2';
 import NotoColorEmojiSbix from '../assets/noto-color-emoji-sbix.woff2';
 import {Font} from '../types';
 import {settingContext} from '../components/App';
@@ -31,23 +30,19 @@ export function useFont() {
         if (font === Font.NotoColorEmoji) {
           /**
            * Safari also supports `OT-SVG` format, but so many of color glyphs won't render.
-           * Using `sbix` format instead.
            * @see https://github.com/googlefonts/nanoemoji/issues/276
            *
-           * @todo Remove `OT-SVG` and `sbix` formats when `COLRv1` supported by all the browsers.
+           * @todo Switch to `COLRv1` whenever it's supported by Safari.
            * @see https://caniuse.com/colr-v1
            */
           url = NotoColorEmojiColr1;
           previousFont = Font.Twemoji;
           const isChromium = !!window.chrome;
-          if (!isChromium) {
-            const userAgent = window.navigator.userAgent.toLowerCase();
-            if (userAgent.indexOf('firefox') !== -1) {
-              url = NotoColorEmojiOtSvg;
-            } else if (userAgent.indexOf('safari') !== -1) {
-              url = NotoColorEmojiSbix;
-            }
-          }
+          if (
+            !isChromium &&
+            window.navigator.userAgent.toLowerCase().indexOf('safari') !== -1
+          )
+            url = NotoColorEmojiSbix;
         }
 
         try {

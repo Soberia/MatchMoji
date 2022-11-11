@@ -96,7 +96,7 @@ function font_generator() {
         mkdir -p $temp_dir
     fi
 
-    print_blue ">> This is time consuming process, please be patient!\n"
+    print_blue ">> This is a time consuming process, please be patient!\n"
     cd $temp_dir
     set -e
 
@@ -120,9 +120,8 @@ function font_generator() {
             tar xz --strip=1 -C twemoji
     fi
     if [ ! -d noto-emoji ]; then
-        # TODO: Switch to "master" branch whenever "colrv1" branch merged
         mkdir noto-emoji
-        wget -qO- https://api.github.com/repos/googlefonts/noto-emoji/tarball/colrv1 |
+        wget -qO- https://api.github.com/repos/googlefonts/noto-emoji/tarball/master |
             tar xz --strip=1 -C noto-emoji
         pip install --no-cache-dir -r noto-emoji/requirements.txt
     fi
@@ -171,21 +170,14 @@ function font_generator() {
     # "COLRv0" format maximum layers is limited to 65536 and
     # can't be used for this font.
     #
-    # Generated "OT-SVG" format with "picosvg" optimization is
-    # so slow to render. Using gzip compressed version without optimization.
-    # Following tool also can be used instead at the cost of much bigger file size.
-    # see https://github.com/adobe-fonts/noto-emoji-svg
-    #
     # Flags won't look good as "CBDT/sbix" version.
     # see https://github.com/googlefonts/color-fonts/issues/27
     # see https://github.com/googlefonts/noto-emoji/pull/389#issuecomment-1134895059
-    for version in 'colr1' 'otsvg' 'sbix'; do
+    for version in 'colr1' 'sbix'; do
         name="noto-color-emoji-$version"
         temp_name="$name"
         format='glyf_colr_1'
-        if [[ $version = 'otsvg' ]]; then
-            format='untouchedsvgz'
-        elif [[ $version = 'sbix' ]]; then
+        if [[ $version = 'sbix' ]]; then
             format='sbix'
         fi
 

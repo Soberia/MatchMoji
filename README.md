@@ -114,7 +114,7 @@ If you're using [VSCode](https://github.com/microsoft/vscode) you can open the w
 
 ### **Generate Project Required Fonts**
 
-This will generate `Noto Emoji` and `Twemoji` fonts in `COLRv0`, `COLRv1`, `OT-SVG` and `sbix` formats in `WOFF2` container:
+This will generate `Noto Emoji` and `Twemoji` fonts in `COLRv0`, `COLRv1` and `sbix` formats in `WOFF2` container:
 
 ```bash
 bin/main.sh --font-generator
