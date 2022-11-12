@@ -21,23 +21,25 @@ const SVGs = {
 
 export default memo(
   forwardRef(function Vector(
-    props: {
-      name: keyof typeof SVGs;
-      title?: string;
-      className?: string;
-      onClick?: React.MouseEventHandler<HTMLDivElement>;
-      svgProps?: React.SVGProps<SVGSVGElement>;
-    },
+    props: Override<
+      React.HTMLAttributes<HTMLDivElement>,
+      {
+        name: keyof typeof SVGs;
+        svgProps?: React.SVGProps<SVGSVGElement>;
+      }
+    >,
     ref?: React.ForwardedRef<SVGSVGElement>
   ) {
     // @ts-expect-error
     const {component: SVG, title} = SVGs[props.name];
+    const {name, svgProps, ...attributes} = props;
+
     return (
       <div
-        className={[props.className, CSSCommon.NoTapHighlight].join(' ')}
-        title={props.title || title}
-        onClick={props.onClick}>
-        <SVG ref={ref} {...props.svgProps} />
+        {...attributes}
+        className={[props.className || '', CSSCommon.NoTapHighlight].join(' ')}
+        title={props.title || title}>
+        <SVG {...svgProps} ref={ref} />
       </div>
     );
   })
