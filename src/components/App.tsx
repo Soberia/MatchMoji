@@ -1,4 +1,11 @@
-import {createContext, useMemo, useRef, useState, useEffect} from 'react';
+import {
+  createContext,
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+  useEffect
+} from 'react';
 
 import './Common.module.css';
 import CSS from './App.module.css';
@@ -72,6 +79,7 @@ export default function App(props: Props) {
     true /* loaded */ | false /* failed */ | undefined /* loading */
   >();
   const utility = useRef<Utility>(null);
+  const externalExitHandler = props.exitHandler;
 
   // Storing total play time in the Web Storage API too
   // frequently leads to excessive disk usage and increases
@@ -164,11 +172,11 @@ export default function App(props: Props) {
   }, [playTime]);
 
   /** Handles unmounting the component. */
-  function exitHandler() {
+  const exitHandler = useCallback(() => {
     fullscreenSwitcher(true);
     setSetting(state => ({...state, playTime: playTimeRealtime.current})); // Updating total play time
-    props.exitHandler && props.exitHandler();
-  }
+    externalExitHandler && externalExitHandler();
+  }, [externalExitHandler, setSetting]);
 
   /** Handles resetting the game for another round. */
   function resetHandler() {
@@ -181,7 +189,7 @@ export default function App(props: Props) {
     });
   }
 
-  const gameExitHandler = props.exitHandler && exitHandler;
+  const gameExitHandler = externalExitHandler && exitHandler;
   const panelsClasses = [CSS.Panels];
   let modal: JSX.Element | undefined;
   if (inactive) {

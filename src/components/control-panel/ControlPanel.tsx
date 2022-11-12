@@ -1,4 +1,4 @@
-import {useRef, useState, useEffect} from 'react';
+import {useRef, useState, useCallback, useEffect} from 'react';
 
 import CSS from './ControlPanel.module.css';
 import CSSCommon from '../Common.module.css';
@@ -75,6 +75,11 @@ export default function ControlPanel(props: {
   const [statsToggle, setStatsToggle] = useState(false);
   const medal = useRef<SVGSVGElement>(null);
   const score = useRef<HTMLSpanElement>(null);
+  const fullscreenToggleHandler = useCallback(() => fullscreenSwitcher(), []);
+  const settingToggleHandler = useCallback(
+    () => props.setHistory(state => ({...state, hash: ROUTES.setting})),
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   useEffect(() => {
     // Showing visual effects on score increase
@@ -166,15 +171,13 @@ export default function ControlPanel(props: {
           <Vector
             name="fullscreen"
             className={iconClasses}
-            onClick={() => fullscreenSwitcher()}
+            onClick={fullscreenToggleHandler}
           />
         )}
         <Vector
           name="gears"
           className={iconClasses}
-          onClick={() =>
-            props.setHistory(state => ({...state, hash: ROUTES.setting}))
-          }
+          onClick={settingToggleHandler}
         />
       </div>
       <Timer
