@@ -34,7 +34,7 @@
 }
 
 .Switch {
-  --size: 4.5rem !important;
+  --size: 4.5rem;
   margin-left: auto;
 }
 

@@ -1,9 +1,11 @@
-.Link {
-  text-decoration: none;
-  cursor: pointer;
-  transition: var(--theme-transition);
-  color: var(--link);
-}
-.Link:hover {
-  text-decoration: underline;
+@layer Elements {
+  .Link {
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--theme-transition);
+    color: var(--link);
+  }
+  .Link:hover {
+    text-decoration: underline;
+  }
 }
