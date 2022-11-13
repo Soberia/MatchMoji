@@ -15,7 +15,7 @@
   margin-right: 1rem;
   transform: inherit;
 
-  /* On Chormium based browsers, scrollbar slightly
+  /* On Chromium based browsers, scrollbar slightly
   overlaps the element. Making a little gap between. */
   margin-left: 0.1rem;
 }

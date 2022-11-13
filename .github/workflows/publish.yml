@@ -56,7 +56,7 @@ jobs:
       - name: Publish NPM Package to the GitHub Packages
         if: steps.gh-pages.conclusion == 'success'
         run: |
-          npm run build # Replcaing previous build
+          npm run build # Replacing previous build
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

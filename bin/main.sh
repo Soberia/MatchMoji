@@ -76,7 +76,7 @@ function production_builder() {
     npx tsc --project tsconfig.lib.json
     typescript_run "$ROOT"/bin/library-builder
 
-    # Removeing SVG files and their footprint
+    # Removing SVG files and their footprint
     rm -R "$ROOT"/build/static/media/*.svg
     sed -Ei '/.svg",?$/d' "$ROOT"/build/asset-manifest.json
     sed -zi 's/,\(\n\s*}\)/\1/g' "$ROOT"/build/asset-manifest.json # Removing trailing commas
@@ -127,12 +127,12 @@ function font_generator() {
     fi
 
     # "glyf" table format should be used instead of
-    # "cff2" becuase it's compress better to woff2.
+    # "cff2" because it's compress better to woff2.
     local version format name temp_name
     local font_version=$(cat $temp_dir/twemoji/package.json | grep -Po '"version": "\K.*\d')
-    local splited_version=(${font_version//./ })
+    local splitted_version=(${font_version//./ })
 
-    # Scaling down the font size to match with Mozila version used in Firefox.
+    # Scaling down the font size to match with Mozilla version used in Firefox.
     # see https://github.com/mozilla/twemoji-colr
     local scale=0.833
     local width=1200
@@ -151,8 +151,8 @@ function font_generator() {
         [[ $version == 1 ]] && continue
 
         name="twemoji-colr$version"
-        time nanoemoji --version_major ${splited_version[0]} \
-            --version_minor ${splited_version[1]} --color_format glyf_colr_$version \
+        time nanoemoji --version_major ${splitted_version[0]} \
+            --version_minor ${splitted_version[1]} --color_format glyf_colr_$version \
             --family 'Twitter Emoji' --output_file "$name.ttf" \
             --upem 1000 --width $width --ascender $ascender --descender $descender \
             --transform "$transform" --build_dir 'build-twemoji' \
@@ -165,7 +165,7 @@ function font_generator() {
 
     font_version=$(cat $temp_dir/noto-emoji/NotoColorEmoji.tmpl.ttx.tmpl |
         grep -Po 'fontRevision.*"\K.*\d')
-    splited_version=(${font_version//./ })
+    splitted_version=(${font_version//./ })
 
     # "COLRv0" format maximum layers is limited to 65536 and
     # can't be used for this font.
@@ -181,8 +181,8 @@ function font_generator() {
             format='sbix'
         fi
 
-        time nanoemoji --version_major ${splited_version[0]} \
-            --version_minor ${splited_version[1]} --color_format $format \
+        time nanoemoji --version_major ${splitted_version[0]} \
+            --version_minor ${splitted_version[1]} --color_format $format \
             --family 'Noto Color Emoji' --output_file "$name.ttf" \
             --upem 1000 --build_dir 'build-noto' --exec_ninja false \
             $(find $temp_dir/noto-emoji/{svg,third_party/region-flags/waved-svg} -name '*.svg')

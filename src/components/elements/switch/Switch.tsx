@@ -18,9 +18,9 @@ export default memo(function Switch(props: {
   /** Handles clicks on the element by ignoring repetitive clicks. */
   function clickHandler() {
     if (!props.disabled) {
-      const curretnTime = Date.now();
-      if (curretnTime - lastClickTime.current > (props.clickDelay || 0)) {
-        lastClickTime.current = curretnTime;
+      const currentTime = Date.now();
+      if (currentTime - lastClickTime.current > (props.clickDelay || 0)) {
+        lastClickTime.current = currentTime;
         props.callback();
       }
     }

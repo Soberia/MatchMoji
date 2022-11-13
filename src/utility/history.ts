@@ -7,7 +7,7 @@ export interface History {
   hash?: string;
   /**
    * Custom callback triggers whenever navigation history changes
-   * by browser nvaigation buttons. This callback can be used when
+   * by browser navigation buttons. This callback can be used when
    * a component needs some time to does something before gets
    * unmounted (e.g. play animations).
    */
@@ -39,7 +39,7 @@ export const ROUTES = {
  * Hashtag should be removed immediately (by `replaceState()`)
  * to reduce visual glitches in the browser navigation bar.
  * However it's not possible to know whether forward button
- * pressed after this modification becuase there's no hashtag
+ * pressed after this modification because there's no hashtag
  * in URL anymore. Passing a custom object as `data` parameter
  * for determining repetitive forward button press.
  */
@@ -96,13 +96,13 @@ export function useHistory(baseRoute?: string) {
    * Handles history changes.
    *
    * This is a wrapper around `React.useState()`'s `dispatch` function
-   * which runs arbitrary code bedore updating the state.
+   * which runs arbitrary code before updating the state.
    *
    * This ensures `window.location` is updated before updating
-   * the state. This is neccessary because if navigation history
+   * the state. This is necessary because if navigation history
    * changes inside of `React.useEffect()`, then children components
    * of the parent component which uses this hook have to deal with
-   * `window.location` with stale informations if trying to access
+   * `window.location` with stale information if trying to access
    * it during the render process.
    */
   const setHistory = useCallback<SetState<History>>(parameter => {

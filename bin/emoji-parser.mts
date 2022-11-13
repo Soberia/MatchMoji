@@ -114,26 +114,26 @@ export default async function emojiParser(saveToDisk = true, version = '14.0') {
           // Not all emojis is in CLDR order, therefor emoji codes
           // should be stored as object's value to corresponding CLDR
           // as object's key. CLDR keys can be removed after that.
-          const splitedLine = line.split(';');
-          if (splitedLine[1].trimStart().startsWith('fully-qualified')) {
-            cldr = splitedLine[1].match(cldrPattern)![1];
+          const splittedLine = line.split(';');
+          if (splittedLine[1].trimStart().startsWith('fully-qualified')) {
+            cldr = splittedLine[1].match(cldrPattern)![1];
             if (subgroup! === 'person') {
               // Some CLDRs (e.g. person, man. woman) have different shapes
-              // and should be considerd as a separate emoji.
+              // and should be considered as a separate emoji.
               for (const exception of exceptions)
-                if (splitedLine[1].endsWith(exception)) {
+                if (splittedLine[1].endsWith(exception)) {
                   cldr += ` ${exception}`;
                   break;
                 }
             } else if (subgroup! === 'country-flag' || subgroup! === 'keycap')
-              cldr += splitedLine[1].split(':')[1];
+              cldr += splittedLine[1].split(':')[1];
 
             let emoji = result[group!][cldr];
             if (!emoji) {
               emoji = result[group!][cldr] = [];
             }
 
-            const codes = splitedLine[0].trimEnd().split(' ');
+            const codes = splittedLine[0].trimEnd().split(' ');
             if (codes.length === 1) {
               emoji.push(Number(`0x${codes[0]}`));
             } else {

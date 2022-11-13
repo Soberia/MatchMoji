@@ -7,7 +7,7 @@
 
   /* Vertically aligning to the all other fonts.
   Without a default font fallback, font ascender
-  alters in Firefox on operation systems other than Widnows. */
+  alters in Firefox on operation systems other than Windows. */
   font-family: var(--emoji-fonts), var(--default-fonts);
   line-height: 100%;
 

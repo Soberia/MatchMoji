@@ -8,7 +8,7 @@ import {LocalSetting} from '../../utility/storage';
 import {ROUTES, History} from '../../utility/history';
 import {
   timeConverter,
-  temporalStlye,
+  temporalStyle,
   fullscreenSwitcher,
   FULLSCREEN_SUPPORTED
 } from '../../utility/tools';
@@ -83,7 +83,7 @@ export default function ControlPanel(props: {
       props.setting.effects &&
       props.setting.scoreUp !== props.settingPrevious.scoreUp
     )
-      temporalStlye([medal.current!, score.current!], CSS.ScoreUp, 300);
+      temporalStyle([medal.current!, score.current!], CSS.ScoreUp, 300);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.setting.scoreUp, props.settingPrevious.scoreUp]);
 
@@ -93,7 +93,7 @@ export default function ControlPanel(props: {
       props.setting.effects &&
       props.setting.scoreDown !== props.settingPrevious.scoreDown
     )
-      temporalStlye([medal.current!, score.current!], CSS.ScoreDown, 300);
+      temporalStyle([medal.current!, score.current!], CSS.ScoreDown, 300);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.setting.scoreDown, props.settingPrevious.scoreDown]);
 

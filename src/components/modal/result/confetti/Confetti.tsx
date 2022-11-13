@@ -43,7 +43,7 @@ export default function Confetti(props: {
     // moving element to the top node while preserving the
     // current element position in the viewport.
     // Position should be calculated in percentage unit
-    // becuase viewport could be changed on window resize.
+    // because viewport could be changed on window resize.
     const selfRect = self.current!.getBoundingClientRect();
     document.querySelector('body')!.appendChild(self.current!);
     self.current!.style.position = 'fixed';

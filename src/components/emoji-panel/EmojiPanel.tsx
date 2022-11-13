@@ -18,7 +18,7 @@ import {
 import {EmojiGroups, Difficulty} from '../../types';
 import {useFont} from '../../utility/font';
 import {LocalSetting} from '../../utility/storage';
-import {temporalStlye, arrayShuffle} from '../../utility/tools';
+import {temporalStyle, arrayShuffle} from '../../utility/tools';
 import {emojiGenerator, emojiCounter, EmojiUnit} from '../../utility/generator';
 
 export interface Utility {
@@ -239,7 +239,7 @@ export default memo(
       /**
        * Randomly swapping or shuffling emojis places for harder difficulty levels.
        * @bug In development environment due to how `React.StrictMode` works,
-       * this effect runs twice and more emojis might swap evrytime.
+       * this effect runs twice and more emojis might swap every time.
        */
       let shuffled = 0;
       const timerId = window.setInterval(
@@ -324,7 +324,7 @@ export default memo(
           return time < TIMER_MAX_VALUE ? time : TIMER_MAX_VALUE;
         });
 
-        temporalStlye(self.current!, CSS.Reload, 500);
+        temporalStyle(self.current!, CSS.Reload, 500);
       }
     }, [emojis, setTime]);
 
@@ -374,7 +374,7 @@ export default memo(
             });
 
             if (effectsRealtime.current)
-              temporalStlye(target, CSS.SelectedWrong, 400);
+              temporalStyle(target, CSS.SelectedWrong, 400);
             if (vibrationRealtime.current && window.navigator.vibrate)
               window.navigator.vibrate(100);
           }

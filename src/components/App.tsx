@@ -24,15 +24,15 @@ import {fullscreenSwitcher, metaTagUpdater} from '../utility/tools';
 
 export interface Props {
   /**
-   * The path which this componenet will be served on.
+   * The path which this component will be served on.
    * This path also must point to the location of the static files.
    * If not provided, `/` will be considered as the default path.
    */
   path?: string;
   /**
-   * The parent componenet's theme.
+   * The parent component's theme.
    * This component manages its theme state independently,
-   * this prop can be specified to keep parent componenet's
+   * this prop can be specified to keep parent component's
    * theme in sync with this component's theme.
    */
   theme?: {
@@ -42,7 +42,7 @@ export interface Props {
     handler: () => void;
   };
   /**
-   * Runs whenever componenet gets unmounted.
+   * Runs whenever component gets unmounted.
    * Can be used to handle the page navigation.
    */
   exitHandler?: () => void;

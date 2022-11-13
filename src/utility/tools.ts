@@ -80,7 +80,7 @@ export function timeConverter(time: number) {
  * @param time - In milliseconds
  * @param callback - Runs after removing classes.
  */
-export function temporalStlye(
+export function temporalStyle(
   element: Element | Element[],
   className: string | string[],
   time: number,
@@ -103,7 +103,10 @@ export function temporalStlye(
   }, time);
 }
 
-/** Updates page title and description, Open Graph and Twitter Cards meta tags to given values. */
+/**
+ * Updates page title and description, Open Graph and
+ * Twitter Cards meta tags to the given values.
+ */
 export function metaTagUpdater(
   title: string,
   description: string,
@@ -126,7 +129,7 @@ export function metaTagUpdater(
     document.querySelector(key)?.setAttribute('content', value);
 }
 
-/** Mimicks React `componentWillMount` lifecycle behaviour. */
+/** Mimics React `componentWillMount` lifecycle behavior. */
 export function useComponentWillMount(callback: () => void) {
   const mounted = useRef(false);
   if (!mounted.current) {
