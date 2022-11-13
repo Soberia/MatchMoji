@@ -5,6 +5,9 @@
   position: fixed;
   z-index: 9;
 }
+.Modal:focus {
+  outline: none;
+}
 
 .Modal > :first-child {
   margin: auto;
@@ -30,9 +33,6 @@
   padding: 0 5rem;
   font-size: 3rem;
   border-radius: 50px;
-}
-.Button:focus {
-  outline: none;
 }
 
 .Item {

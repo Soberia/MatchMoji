@@ -1,0 +1,18 @@
+@layer Elements {
+  .Focus:focus {
+    outline: none;
+  }
+  .Focus:focus-visible {
+    outline: 2px dashed var(--outline);
+    animation: spin 1s forwards;
+  }
+
+  @keyframes spin {
+    from {
+      border-radius: 0;
+    }
+    to {
+      border-radius: 15px;
+    }
+  }
+}

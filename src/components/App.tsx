@@ -72,6 +72,7 @@ export default function App(props: Props) {
   );
   const settingPrevious = useRef({...setting});
   const self = useRef<HTMLDivElement>(null);
+  const panels = useRef<HTMLDivElement>(null);
 
   const [time, setTime] = useState(TIMER_DEFAULT);
   const [changelog, setChangelog] = useState<ChangelogData>();
@@ -201,6 +202,7 @@ export default function App(props: Props) {
             setting.showIntroduction ? 'Intro' : timesUp ? 'Result' : 'Setting'
           ]
         }
+        panels={panels}
         musicLoaded={musicLoaded}
         history={history}
         setting={{...setting, theme, playTime}}
@@ -235,7 +237,7 @@ export default function App(props: Props) {
           ) : (
             <>
               {modal}
-              <div className={panelsClasses.join(' ')}>
+              <div ref={panels} className={panelsClasses.join(' ')}>
                 <ControlPanel
                   inactive={inactive}
                   time={time}

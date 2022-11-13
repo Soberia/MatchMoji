@@ -10,7 +10,10 @@ import {History} from '../../utility/history';
 import {LocalSetting} from '../../utility/storage';
 
 export type ExitHandler = (callback?: () => void) => void;
-export const keyCodes = ['Escape', 'Enter', ' ' /* Space */];
+export interface KeyHandlerCallbacks {
+  onEnter?: () => void;
+  onEscape?: () => void;
+}
 export enum Content {
   Intro,
   Result,
@@ -19,6 +22,7 @@ export enum Content {
 
 export default function Modal(props: {
   content: Content;
+  panels: React.RefObject<HTMLDivElement>;
   musicLoaded?: boolean;
   history: History;
   setting: LocalSetting;
@@ -33,6 +37,11 @@ export default function Modal(props: {
   gameExitHandler?: () => void;
 }) {
   const self = useRef<HTMLDivElement>(null);
+  const keyHandlerCallbacks = useRef<KeyHandlerCallbacks>({});
+
+  useEffect(() => {
+    self.current!.focus();
+  }, []);
 
   useEffect(() => {
     // Preventing scrolling outside of modal overlay
@@ -44,6 +53,12 @@ export default function Modal(props: {
       document.body.style.position = '';
     };
   }, []);
+
+  useEffect(() => {
+    // Preventing focusing outside of modal overlay
+    props.panels.current!.setAttribute('inert', 'true');
+    return () => props.panels.current!.removeAttribute('inert');
+  }, [props.panels]);
 
   useEffect(() => {
     // When another modal is requested
@@ -59,12 +74,29 @@ export default function Modal(props: {
     }, 300);
   }
 
+  /** Handles calling the callback functions on key presses. */
+  function keyHandler(event: React.KeyboardEvent<HTMLDivElement>) {
+    const callbacks = keyHandlerCallbacks.current;
+    if (event.key === 'Enter') {
+      callbacks.onEnter && callbacks.onEnter();
+    } else if (event.key === 'Escape') {
+      callbacks.onEscape && callbacks.onEscape();
+    }
+  }
+
   let content: JSX.Element | undefined;
   if (props.content === Content.Intro)
-    content = <Intro setSetting={props.setSetting} exitHandler={exitHandler} />;
+    content = (
+      <Intro
+        keyHandlerCallbacks={keyHandlerCallbacks.current}
+        setSetting={props.setSetting}
+        exitHandler={exitHandler}
+      />
+    );
   else if (props.content === Content.Result)
     content = (
       <Result
+        keyHandlerCallbacks={keyHandlerCallbacks.current}
         setting={props.setting}
         settingPrevious={props.settingPrevious}
         setHistory={props.setHistory}
@@ -76,6 +108,7 @@ export default function Modal(props: {
   else if (props.content === Content.Setting)
     content = (
       <Setting
+        keyHandlerCallbacks={keyHandlerCallbacks.current}
         musicLoaded={props.musicLoaded}
         history={props.history}
         setting={props.setting}
@@ -90,7 +123,7 @@ export default function Modal(props: {
     );
 
   return (
-    <div ref={self} className={CSS.Modal}>
+    <div ref={self} className={CSS.Modal} tabIndex={-1} onKeyDown={keyHandler}>
       <div>{content}</div>
     </div>
   );

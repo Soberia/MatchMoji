@@ -3,8 +3,10 @@ import {memo, useRef, useEffect} from 'react';
 import CSS from './Changelog.module.css';
 import CSSSetting from '../Setting.module.css';
 import CSSCommon from '../../../Common.module.css';
+import Focus from '../../../elements/focus/Focus';
 import Vector from '../../../elements/vector/Vector';
 import CloseButton from '../../../elements/close-button/CloseButton';
+import {KeyHandlerCallbacks} from '../../Modal';
 import {fetchFile} from '../../../../utility/request';
 import {ROUTES, History} from '../../../../utility/history';
 
@@ -15,11 +17,13 @@ export type ChangelogData =
 
 export default memo(
   function Changelog({
+    keyHandlerCallbacks,
     data,
     history,
     setData,
     setHistory
   }: {
+    keyHandlerCallbacks: KeyHandlerCallbacks;
     data: ChangelogData;
     history: History;
     setData: SetState<ChangelogData>;
@@ -28,7 +32,9 @@ export default memo(
     const self = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-      self.current!.focus();
+      // Attaching key handler callbacks
+      keyHandlerCallbacks.onEnter = undefined;
+      keyHandlerCallbacks.onEscape = exitHandler;
 
       // Attaching custom navigation history handler
       // for being able to play the exit animation.
@@ -59,25 +65,19 @@ export default memo(
       }, 500);
     }
 
-    /** Handles unmounting the component on `Escape` key press. */
-    function exitByKeyHandler<T extends Element>(
-      event: React.KeyboardEvent<T>
-    ) {
-      if (event.target === event.currentTarget && event.key === 'Escape')
-        exitHandler();
-    }
-
     let result: JSX.Element | JSX.Element[];
     if (data === undefined)
       result = <Vector name="loading" className={CSS.Icons} />;
     else if (data === null)
       result = (
-        <Vector
-          name="refresh"
-          title="Reload"
-          className={[CSS.Icons, CSS.Reload].join(' ')}
-          onClick={() => setData(undefined)}
-        />
+        <Focus>
+          <Vector
+            name="refresh"
+            title="Reload"
+            className={[CSS.Icons, CSS.Reload].join(' ')}
+            onClick={() => setData(undefined)}
+          />
+        </Focus>
       );
     else {
       // Parsing changelog data
@@ -104,9 +104,7 @@ export default memo(
           CSS.Changelog,
           CSSSetting.Content,
           CSSCommon.Scrollbar
-        ].join(' ')}
-        onKeyDown={exitByKeyHandler}
-        tabIndex={-1}>
+        ].join(' ')}>
         <CloseButton className={CSS.CloseButton} callback={exitHandler} />
         {result}
       </div>

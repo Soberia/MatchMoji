@@ -4,19 +4,23 @@ import CSS from './Intro.module.css';
 import CSSModal from '../Modal.module.css';
 import CSSCommon from '../../Common.module.css';
 import Emoji from '../../emoji/Emoji';
-import {keyCodes, ExitHandler} from '../Modal';
+import Focus from '../../elements/focus/Focus';
+import {ExitHandler, KeyHandlerCallbacks} from '../Modal';
 import {arrayShuffle} from '../../../utility/tools';
 import {LocalSetting} from '../../../utility/storage';
 
 export default function Intro(props: {
+  keyHandlerCallbacks: KeyHandlerCallbacks;
   setSetting: SetState<LocalSetting>;
   exitHandler: ExitHandler;
 }) {
   const button = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    button.current!.focus();
-  }, []);
+    // Attaching key handler callbacks
+    props.keyHandlerCallbacks.onEnter = props.keyHandlerCallbacks.onEscape =
+      exitHandler;
+  });
 
   /** Handles unmounting the component. */
   function exitHandler() {
@@ -45,14 +49,14 @@ export default function Intro(props: {
           ))}
         </div>
         Select identical emojis before time's up!
-        <div
-          ref={button}
-          className={[CSSCommon.Button, CSSModal.Button].join(' ')}
-          onClick={exitHandler}
-          onKeyDown={event => keyCodes.includes(event.key) && exitHandler()}
-          tabIndex={-1}>
-          Got It
-        </div>
+        <Focus>
+          <div
+            ref={button}
+            className={[CSSCommon.Button, CSSModal.Button].join(' ')}
+            onClick={exitHandler}>
+            Got It
+          </div>
+        </Focus>
       </>
     );
   }, []); // eslint-disable-line react-hooks/exhaustive-deps

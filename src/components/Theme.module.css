@@ -18,6 +18,7 @@
   --button-disable: #afafaf;
   --scroll: #aaa;
   --shadow: #999;
+  --outline: #000;
 }
 
 .dark {
@@ -33,4 +34,5 @@
   --button-disable: #4b4b4b;
   --scroll: #333;
   --shadow: #3c3c3c;
+  --outline: #fff;
 }

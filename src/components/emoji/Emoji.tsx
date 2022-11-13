@@ -1,7 +1,8 @@
-import {memo, forwardRef} from 'react';
+import {Fragment, memo, forwardRef} from 'react';
 
 import CSS from './Emoji.module.css';
 import CSSCommon from '../Common.module.css';
+import Focus from '../elements/focus/Focus';
 import {Font} from '../../types';
 
 export default memo(
@@ -10,26 +11,30 @@ export default memo(
       code: number | number[];
       font?: Font;
       className?: string;
+      focus?: boolean;
       onClick?: React.MouseEventHandler<HTMLDivElement>;
     },
     ref?: React.ForwardedRef<HTMLDivElement>
   ) {
+    const Wrapper = props.focus ? Focus : Fragment;
     return (
-      <div
-        ref={ref}
-        className={[
-          CSS.Emoji,
-          CSSCommon.NoTapHighlight,
-          props.className || '',
-          props.font !== undefined && props.font !== Font.Default
-            ? CSS[Font[props.font]]
-            : ''
-        ].join(' ')}
-        onClick={props.onClick}>
-        {String.fromCodePoint(
-          ...(Array.isArray(props.code) ? props.code : [props.code])
-        )}
-      </div>
+      <Wrapper>
+        <div
+          ref={ref}
+          className={[
+            CSS.Emoji,
+            CSSCommon.NoTapHighlight,
+            props.className || '',
+            props.font !== undefined && props.font !== Font.Default
+              ? CSS[Font[props.font]]
+              : ''
+          ].join(' ')}
+          onClick={props.onClick}>
+          {String.fromCodePoint(
+            ...(Array.isArray(props.code) ? props.code : [props.code])
+          )}
+        </div>
+      </Wrapper>
     );
   }),
   (prevProps, nextProps) =>

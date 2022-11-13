@@ -5,10 +5,11 @@ import CSSModal from '../Modal.module.css';
 import CSSCommon from '../../Common.module.css';
 import Emoji from '../../emoji/Emoji';
 import Link from '../../elements/link/Link';
+import Focus from '../../elements/focus/Focus';
 import Switch from '../../elements/switch/Switch';
 import Vector from '../../elements/vector/Vector';
 import Changelog, {ChangelogData} from './changelog/Changelog';
-import {keyCodes, ExitHandler} from '../Modal';
+import {ExitHandler, KeyHandlerCallbacks} from '../Modal';
 import {Utility} from '../../emoji-panel/EmojiPanel';
 import {Theme, Font, Difficulty, EmojiGroups} from '../../../types';
 import {useFont} from '../../../utility/font';
@@ -17,6 +18,7 @@ import {ROUTES, History} from '../../../utility/history';
 import {emojiCounter, EmojiCode} from '../../../utility/generator';
 
 export default function Setting(props: {
+  keyHandlerCallbacks: KeyHandlerCallbacks;
   musicLoaded?: boolean;
   history: History;
   setting: LocalSetting;
@@ -38,16 +40,24 @@ export default function Setting(props: {
   const showChangelog = props.history.hash === ROUTES.changelog;
 
   useEffect(() => {
-    if (!showChangelog) {
-      button.current!.focus();
-    }
-  });
-
-  useEffect(() => {
     // Making room for scrollbar
     if (options.current)
       options.current.parentElement!.style.paddingLeft = '0.5rem';
   }, []);
+
+  useEffect(() => {
+    // Preventing focusing on the options
+    if (showChangelog) {
+      options.current!.setAttribute('inert', 'true');
+    } else {
+      options.current!.removeAttribute('inert');
+
+      // Attaching key handler callbacks
+      props.keyHandlerCallbacks.onEnter = props.keyHandlerCallbacks.onEscape =
+        exitHandler;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showChangelog, props.keyHandlerCallbacks]);
 
   useEffect(() => {
     // Attaching custom navigation history handler
@@ -140,12 +150,15 @@ export default function Setting(props: {
   }
 
   let soundIcon = 0x1f50a; // 🔊
+  let musicDisabled = false;
   const musicClasses = [CSSModal.Item];
   const musicNotLoaded = props.musicLoaded === false;
   if (!props.setting.sound) {
     soundIcon = 0x1f508; // 🔈
+    musicDisabled = true;
     musicClasses.push(CSSCommon.Disabled);
   } else if (musicNotLoaded) {
+    musicDisabled = true;
     musicClasses.push(CSSCommon.Disabled);
   }
 
@@ -211,6 +224,7 @@ export default function Setting(props: {
           <Emoji code={0x1f335} /* 🌵 */ /> Vibration
           <Switch
             on={props.setting.vibration && vibration}
+            disabled={!vibration}
             className={CSS.Switch}
             callback={() =>
               props.setSetting(state => ({
@@ -235,6 +249,7 @@ export default function Setting(props: {
           <Emoji code={0x1f3b5} /* 🎵 */ /> Music
           <Switch
             on={props.setting.backgroundMusic && !musicNotLoaded}
+            disabled={musicDisabled}
             className={CSS.Switch}
             clickDelay={1100} // Waiting for background music fade-out effect
             callback={() =>
@@ -273,6 +288,7 @@ export default function Setting(props: {
         <div className={CSSModal.Item}>
           <Emoji code={0x1f321} /* 🌡️ */ /> Difficulty
           <Emoji
+            focus
             ref={difficulty}
             code={
               [0x1f600 /* 😀 */, 0x1f610 /* 😐 */, 0x1f622 /* 😢 */][
@@ -299,6 +315,7 @@ export default function Setting(props: {
             <Vector name="loading" className={CSS.FontLoading} />
           ) : (
             <Emoji
+              focus
               ref={font}
               code={0x1f920} /* 🤠 */
               font={props.setting.font}
@@ -326,6 +343,7 @@ export default function Setting(props: {
           ].map((code, idx) => (
             <div key={idx}>
               <Emoji
+                focus
                 code={code}
                 className={[
                   CSS.EmojiGroup,
@@ -349,25 +367,27 @@ export default function Setting(props: {
           MatchMoji v{process.env.REACT_APP_VERSION}
         </Link>
         &nbsp;
-        <span
-          onClick={() =>
-            props.setHistory(state => ({...state, hash: ROUTES.changelog}))
-          }>
-          &lt;changelog&gt;
-        </span>
+        <Focus>
+          <span
+            onClick={() =>
+              props.setHistory(state => ({...state, hash: ROUTES.changelog}))
+            }>
+            &lt;changelog&gt;
+          </span>
+        </Focus>
         <br />
         Music track is "Hi-score" composed by "Johannes Bjerregård"
         <br />
         {!fontLoading && license ? <span>{license}</span> : <>&nbsp;</>}
       </div>
-      <div
-        ref={button}
-        className={[CSSCommon.Button, CSSModal.Button].join(' ')}
-        onClick={exitHandler}
-        onKeyDown={event => keyCodes.includes(event.key) && exitHandler()}
-        tabIndex={-1}>
-        Done
-      </div>
+      <Focus>
+        <div
+          ref={button}
+          className={[CSSCommon.Button, CSSModal.Button].join(' ')}
+          onClick={exitHandler}>
+          Done
+        </div>
+      </Focus>
       <div className={[CSS.Notice, CSS.Warning].join(' ')}>
         {inadequateGroups ? (
           <span className={CSS.InadequateGroups}>
@@ -381,6 +401,7 @@ export default function Setting(props: {
       </div>
       {showChangelog && (
         <Changelog
+          keyHandlerCallbacks={props.keyHandlerCallbacks}
           data={props.changelog}
           history={props.history}
           setData={props.setChangelog}

@@ -1,17 +1,19 @@
-import {useRef, useEffect} from 'react';
+import {Fragment, useRef, useEffect} from 'react';
 
 import CSS from './Result.module.css';
 import Confetti from './confetti/Confetti';
 import CSSModal from '../Modal.module.css';
 import CSSCommon from '../../Common.module.css';
 import Emoji from '../../emoji/Emoji';
+import Focus from '../../elements/focus/Focus';
 import Vector from '../../elements/vector/Vector';
-import {keyCodes, ExitHandler} from '../Modal';
+import {ExitHandler, KeyHandlerCallbacks} from '../Modal';
 import {timeConverter} from '../../../utility/tools';
 import {LocalSetting} from '../../../utility/storage';
 import {ROUTES, History} from '../../../utility/history';
 
 export default function Result(props: {
+  keyHandlerCallbacks: KeyHandlerCallbacks;
   setting: LocalSetting;
   settingPrevious: LocalSetting;
   setHistory: SetState<History>;
@@ -26,7 +28,12 @@ export default function Result(props: {
   );
 
   useEffect(() => {
-    button.current!.focus();
+    // Attaching key handler callbacks
+    props.keyHandlerCallbacks.onEnter = exitHandler;
+    props.keyHandlerCallbacks.onEscape = props.gameExitHandler;
+  });
+
+  useEffect(() => {
     // Attaching custom navigation history handler
     // for being able to play the exit animation.
     // If user has no interaction so far, no entry
@@ -46,17 +53,22 @@ export default function Result(props: {
     });
   }
 
+  const arrowClasses = [CSS.Arrow, CSSCommon.Box];
+  let ArrowWrapper = Focus;
+  if (!props.gameExitHandler) {
+    arrowClasses.push(CSSCommon.Disabled);
+    ArrowWrapper = Fragment;
+  }
+
   return (
     <>
-      <Vector
-        name="arrow"
-        className={[
-          CSS.Arrow,
-          CSSCommon.Box,
-          props.gameExitHandler ? '' : CSSCommon.Disabled
-        ].join(' ')}
-        onClick={props.gameExitHandler}
-      />
+      <ArrowWrapper>
+        <Vector
+          name="arrow"
+          className={arrowClasses.join(' ')}
+          onClick={props.gameExitHandler}
+        />
+      </ArrowWrapper>
       {props.settingPrevious.scoreRecord !== 0 &&
         props.settingPrevious.scoreRecord < finalScore && (
           <div className={CSS.Trophy}>
@@ -77,14 +89,14 @@ export default function Result(props: {
         <Emoji code={0x1f3c5} /* 🏅 */ /> Best Record
         <span>{props.setting.scoreRecord}</span>
       </div>
-      <div
-        ref={button}
-        className={[CSSCommon.Button, CSS.Button, CSSModal.Button].join(' ')}
-        onClick={exitHandler}
-        onKeyDown={event => keyCodes.includes(event.key) && exitHandler()}
-        tabIndex={-1}>
-        Retry
-      </div>
+      <Focus>
+        <div
+          ref={button}
+          className={[CSSCommon.Button, CSS.Button, CSSModal.Button].join(' ')}
+          onClick={exitHandler}>
+          Retry
+        </div>
+      </Focus>
     </>
   );
 }

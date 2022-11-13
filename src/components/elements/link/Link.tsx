@@ -1,4 +1,5 @@
 import CSS from './Link.module.css';
+import Focus from '../focus/Focus';
 
 export default function Link(
   props: Override<
@@ -16,17 +17,19 @@ export default function Link(
   }
 
   return (
-    <a
-      {...attributes}
-      className={[CSS.Link, props.className || ''].join(' ')}
-      href={
-        props.href
-          ? typeof props.href !== 'string'
-            ? props.href.toString()
-            : props.href
-          : undefined
-      }>
-      {props.children}
-    </a>
+    <Focus>
+      <a
+        {...attributes}
+        className={[CSS.Link, props.className || ''].join(' ')}
+        href={
+          props.href
+            ? typeof props.href !== 'string'
+              ? props.href.toString()
+              : props.href
+            : undefined
+        }>
+        {props.children}
+      </a>
+    </Focus>
   );
 }

@@ -1,7 +1,8 @@
-import {useRef, useState, useCallback, useEffect} from 'react';
+import {Fragment, useRef, useState, useMemo, useEffect} from 'react';
 
 import CSS from './ControlPanel.module.css';
 import CSSCommon from '../Common.module.css';
+import Focus from '../elements/focus/Focus';
 import Vector from '../elements/vector/Vector';
 import {LocalSetting} from '../../utility/storage';
 import {ROUTES, History} from '../../utility/history';
@@ -75,11 +76,6 @@ export default function ControlPanel(props: {
   const [statsToggle, setStatsToggle] = useState(false);
   const medal = useRef<SVGSVGElement>(null);
   const score = useRef<HTMLSpanElement>(null);
-  const fullscreenToggleHandler = useCallback(() => fullscreenSwitcher(), []);
-  const settingToggleHandler = useCallback(
-    () => props.setHistory(state => ({...state, hash: ROUTES.setting})),
-    [] // eslint-disable-line react-hooks/exhaustive-deps
-  );
 
   useEffect(() => {
     // Showing visual effects on score increase
@@ -119,66 +115,103 @@ export default function ControlPanel(props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.time]);
 
-  const controlPanelClasses = [CSS.ControlPanel];
   const iconClasses = [CSS.Icon, CSSCommon.Box].join(' ');
-  const statsClasses = [CSS.Stats, CSSCommon.Box, CSSCommon.NoTapHighlight];
-  let details: JSX.Element | undefined;
-  if (statsToggle) {
-    const BIG_SCORE = `+${MAX_DIGITS}`;
-    const {time, unit} = timeConverter(props.playTime);
-    controlPanelClasses.push(CSS.TimerShadow);
-    statsClasses.push(CSS.StatsExpand);
-    details = (
-      <div className={[CSS.Details, CSSCommon.Code].join(' ')}>
-        <div>
-          Total time played:
-          <span>{`${
-            time <= MAX_DIGITS ? Math.round(time) : BIG_SCORE
-          }${unit}`}</span>
-        </div>
-        <div>
-          Total success:
-          <span>
-            {props.setting.scoreUp <= MAX_DIGITS
-              ? props.setting.scoreUp
-              : BIG_SCORE}
-          </span>
-        </div>
-        <div>
-          Total failure:
-          <span>
-            {props.setting.scoreDown <= MAX_DIGITS
-              ? props.setting.scoreDown
-              : BIG_SCORE}
-          </span>
-        </div>
-      </div>
-    );
+  const arrowClasses = [iconClasses];
+  let ArrowWrapper = Focus;
+  if (!props.gameExitHandler) {
+    arrowClasses.push(CSSCommon.Disabled);
+    ArrowWrapper = Fragment;
   }
+
+  const controlPanelClasses = [CSS.ControlPanel];
+  const statsClasses = [CSS.Stats, CSSCommon.Box, CSSCommon.NoTapHighlight];
+  const details = useMemo(
+    () => {
+      if (statsToggle) {
+        const BIG_SCORE = `+${MAX_DIGITS}`;
+        const {time, unit} = timeConverter(props.playTime);
+        controlPanelClasses.push(CSS.TimerShadow);
+        statsClasses.push(CSS.StatsExpand);
+        return (
+          <div className={[CSS.Details, CSSCommon.Code].join(' ')}>
+            <div>
+              Total time played:
+              <span>{`${
+                time <= MAX_DIGITS ? Math.round(time) : BIG_SCORE
+              }${unit}`}</span>
+            </div>
+            <div>
+              Total success:
+              <span>
+                {props.setting.scoreUp <= MAX_DIGITS
+                  ? props.setting.scoreUp
+                  : BIG_SCORE}
+              </span>
+            </div>
+            <div>
+              Total failure:
+              <span>
+                {props.setting.scoreDown <= MAX_DIGITS
+                  ? props.setting.scoreDown
+                  : BIG_SCORE}
+              </span>
+            </div>
+          </div>
+        );
+      }
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      props.playTime,
+      props.setting.scoreDown,
+      props.setting.scoreUp,
+      statsToggle
+    ]
+  );
 
   return (
     <div className={controlPanelClasses.join(' ')}>
       <div>
-        <Vector
-          name="arrow"
-          className={[
-            iconClasses,
-            props.gameExitHandler ? '' : CSSCommon.Disabled
-          ].join(' ')}
-          onClick={props.gameExitHandler}
-        />
-        {FULLSCREEN_SUPPORTED && (
-          <Vector
-            name="fullscreen"
-            className={iconClasses}
-            onClick={fullscreenToggleHandler}
-          />
+        {useMemo(
+          () => (
+            <ArrowWrapper>
+              <Vector
+                name="arrow"
+                className={arrowClasses.join(' ')}
+                onClick={props.gameExitHandler}
+              />
+            </ArrowWrapper>
+          ),
+          [props.gameExitHandler] // eslint-disable-line react-hooks/exhaustive-deps
         )}
-        <Vector
-          name="gears"
-          className={iconClasses}
-          onClick={settingToggleHandler}
-        />
+        {useMemo(
+          () =>
+            FULLSCREEN_SUPPORTED && (
+              <Focus>
+                <Vector
+                  name="fullscreen"
+                  className={iconClasses}
+                  onClick={() => fullscreenSwitcher()}
+                />
+              </Focus>
+            ),
+          [] // eslint-disable-line react-hooks/exhaustive-deps
+        )}
+        {useMemo(
+          () => (
+            <Focus>
+              <Vector
+                name="gears"
+                className={iconClasses}
+                onClick={() =>
+                  props.setHistory(state => ({...state, hash: ROUTES.setting}))
+                }
+              />
+            </Focus>
+          ),
+          [] // eslint-disable-line react-hooks/exhaustive-deps
+        )}
       </div>
       <Timer
         inactive={props.inactive}
@@ -186,17 +219,26 @@ export default function ControlPanel(props: {
         setTime={props.setTime}
         setPlayTime={props.setPlayTime}
       />
-      <div
-        className={statsClasses.join(' ')}
-        onClick={() => setStatsToggle(state => !state)}>
-        <Vector ref={medal} className={CSS.Score} name="medal" />
-        <span ref={score} className={[CSS.Score, CSSCommon.Code].join(' ')}>
-          {props.setting.score <= MAX_DIGITS
-            ? props.setting.score
-            : `+${MAX_DIGITS}`}
-        </span>
-        {details}
-      </div>
+      {useMemo(
+        () => (
+          <Focus>
+            <div
+              className={statsClasses.join(' ')}
+              onClick={() => setStatsToggle(state => !state)}>
+              <Vector ref={medal} className={CSS.Score} name="medal" />
+              <span
+                ref={score}
+                className={[CSS.Score, CSSCommon.Code].join(' ')}>
+                {props.setting.score <= MAX_DIGITS
+                  ? props.setting.score
+                  : `+${MAX_DIGITS}`}
+              </span>
+              {details}
+            </div>
+          </Focus>
+        ),
+        [props.setting.score, details] // eslint-disable-line react-hooks/exhaustive-deps
+      )}
     </div>
   );
 }
