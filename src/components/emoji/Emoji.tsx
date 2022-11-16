@@ -9,6 +9,11 @@ export default memo(
   forwardRef(function Emoji(
     props: {
       code: number | number[];
+      /**
+       * The emoji unique identifier.
+       * If provided, triggers a re-render on value change.
+       */
+      id?: number;
       font?: Font;
       className?: string;
       focus?: boolean;
@@ -39,6 +44,7 @@ export default memo(
   }),
   (prevProps, nextProps) =>
     prevProps.code === nextProps.code &&
+    prevProps.id === nextProps.id &&
     prevProps.font === nextProps.font &&
     prevProps.className === nextProps.className
 );

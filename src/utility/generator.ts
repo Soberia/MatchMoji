@@ -7,7 +7,6 @@ export interface EmojiUnit {
   id: number;
   code: EmojiCode;
   hidden?: boolean;
-  swapped?: boolean;
 }
 
 /**

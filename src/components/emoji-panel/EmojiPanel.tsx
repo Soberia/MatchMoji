@@ -252,6 +252,7 @@ export default memo(
             )
               return state;
 
+            const reorderedIndices: number[] = [];
             const selectedEmoji = selectedEmojiRealtime.current;
             // Shuffling all the emojis by the chance
             // while preserving selected emoji's position.
@@ -261,39 +262,63 @@ export default memo(
                 if (selectedEmoji)
                   selectedEmojiIndex = state.indexOf(selectedEmoji);
 
+                const emojis = [...state];
                 arrayShuffle(state);
                 if (selectedEmojiIndex) {
                   state[state.indexOf(selectedEmoji!)] =
                     state[selectedEmojiIndex];
                   state[selectedEmojiIndex] = selectedEmoji!;
                 }
+
+                for (let index = 0; index < state.length; index++)
+                  if (state[index].id !== emojis[index].id)
+                    reorderedIndices.push(index);
               }
 
-            const emojiIndices: number[] = [];
-            while (emojiIndices.length < 2) {
-              const randomEmojiIndex = Math.floor(Math.random() * state.length);
-              const emoji = state[randomEmojiIndex];
+            const indices: number[] = [];
+            while (indices.length < 2) {
+              const randomIndex = Math.floor(Math.random() * state.length);
+              const emoji = state[randomIndex];
               if (
-                randomEmojiIndex !== emojiIndices[0] && // Emoji's index shouldn't be same as previous one
+                randomIndex !== indices[0] && // Emoji's index shouldn't be same as previous one
                 emoji.id !== selectedEmoji?.id && // Emoji shouldn't be selected
-                !(emoji.hidden && state[emojiIndices[0]]?.hidden) // Emoji shouldn't be hidden if previous one is also hidden
+                !(emoji.hidden && state[indices[0]]?.hidden) // Emoji shouldn't be hidden if previous one is also hidden
               ) {
-                emojiIndices.push(randomEmojiIndex);
-                emoji.swapped = true;
+                indices.push(randomIndex);
+                if (!reorderedIndices.includes(randomIndex))
+                  reorderedIndices.push(randomIndex);
               }
             }
 
-            [state[emojiIndices[0]], state[emojiIndices[1]]] = [
-              state[emojiIndices[1]],
-              state[emojiIndices[0]]
-            ];
-            window.setTimeout(() => {
-              // Waiting for the animation
-              if (state)
-                for (const emojiIndex of emojiIndices)
-                  state[emojiIndex].swapped = false;
-            }, 400);
+            // Temporarily disabling transition effects
+            // to avoid appearing hidden emojis.
+            for (const index of reorderedIndices)
+              (self.current!.children[index] as HTMLElement).style.transition =
+                'none';
 
+            // Playing an animation for swapped emojis
+            if (effectsRealtime.current)
+              for (const index of indices) {
+                const emoji = self.current!.children[index] as HTMLElement;
+                reorderedIndices.pop();
+                emoji.animate(
+                  [
+                    {transform: 'scale(1)'},
+                    {transform: 'scale(0)', offset: 0.5}
+                  ],
+                  400
+                ).onfinish = () => emoji.removeAttribute('style');
+              }
+
+            window.setTimeout(() => {
+              for (const index of reorderedIndices)
+                self.current!.children[index].removeAttribute('style');
+            }, 200);
+
+            [state[indices[0]], state[indices[1]]] = [
+              state[indices[1]],
+              state[indices[0]]
+            ];
             return [...state];
           }),
         1e3
@@ -384,8 +409,8 @@ export default memo(
     }
 
     const _emojis = [];
-    const effects = setting.effects;
     const font = setting.font;
+    let index = 0;
     for (const emoji of emojis) {
       let handler: React.MouseEventHandler | undefined;
       const classes = [CSS.Emoji];
@@ -397,13 +422,23 @@ export default memo(
           emojiSelectHandler(event, emoji);
         if (emoji.id === selectedEmoji?.id) {
           classes.push(CSS.Selected);
-        } else if (effects && emoji.swapped) {
-          classes.push(CSS.Swapped);
         }
       }
       _emojis.push(
         <Emoji
-          key={emoji.id}
+          /**
+           * `key` should not change, otherwise reordering the emojis
+           * will remove and reinsert them in the DOM and that causes
+           * replaying the animations/transitions which leads to
+           * inability to select the emojis correctly.
+           * @see https://github.com/facebook/react/issues/19695
+           *
+           * However if same emojis swapped on each other places,
+           * a unique identifier should be passed as prop to force
+           * a re-render.
+           */
+          key={index++}
+          id={emoji.id}
           code={emoji.code}
           font={font}
           className={classes.join(' ')}
