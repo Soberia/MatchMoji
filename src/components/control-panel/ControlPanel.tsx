@@ -15,9 +15,9 @@ import {
 
 type PlayTime = LocalSetting['playTime'];
 
-export const TIMER_INTERVAL = 100; // milisecond
-export const TIMER_DEFAULT = 1e4; // milisecond
-export const TIMER_MAX_VALUE = 99900; // milisecond
+export const TIMER_INTERVAL = 100; // millisecond
+export const TIMER_DEFAULT = 1e4; // millisecond
+export const TIMER_MAX_VALUE = 99900; // millisecond
 const MAX_DIGITS = Number('9'.repeat(7));
 
 function Timer(props: {
@@ -46,11 +46,11 @@ function Timer(props: {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const seconds = ~~(props.time / 1000);
-  const miliSeconds = Math.round((props.time % 1000) / 100);
+  const milliseconds = Math.round((props.time % 1000) / 100);
   const digit = props.inactive || props.time === TIMER_DEFAULT ? 0 : 9;
   const clock = `${
     seconds >= 10 ? seconds : `0${seconds}`
-  }:${miliSeconds}${Math.abs(digit - miliSeconds)}`;
+  }:${milliseconds}${Math.abs(digit - milliseconds)}`;
 
   return (
     <div className={[CSS.Timer, CSSCommon.Code].join(' ')}>
