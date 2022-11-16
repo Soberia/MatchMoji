@@ -50,6 +50,10 @@ export default function Setting(props: {
     if (showChangelog) {
       options.current!.setAttribute('inert', 'true');
     } else {
+      /**
+       * @bug In Safari, options section isn't scrollable
+       * after opening and closing the changelog window.
+       */
       options.current!.removeAttribute('inert');
 
       // Attaching key handler callbacks
