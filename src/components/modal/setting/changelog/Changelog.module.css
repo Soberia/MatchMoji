@@ -82,3 +82,27 @@
     height: 100%;
   }
 }
+
+/* only on Safari */
+@supports (font: -apple-system-body) and (-webkit-appearance: none) {
+  /* Hiding animation flickering with applying opacity. */
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(-100vh);
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-out {
+    50% {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      transform: translateY(100vh);
+    }
+  }
+}
