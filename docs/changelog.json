@@ -1,3 +1,12 @@
 {
+  "1.1.0 - 11/16/2022": [
+    "[add] Improve keyboard accessibility",
+    "[fix] Animation flickering when opening changelog window on Safari",
+    "[fix] Emojis couldn't be selected when they swapped places on some difficulty levels",
+    "[fix] Some setting panel's sections had wrong font size in newer versions of Safari",
+    "[misc] Update font assets",
+    "[misc] Improve performance",
+    "[misc] Remove support for 'OT-SVG' font format"
+  ],
   "1.0.0 - 7/19/2022": ["Initial Release"]
 }
