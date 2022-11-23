@@ -1,5 +1,5 @@
 {
-  "1.1.0 - 11/16/2022": [
+  "1.1.0 - 11/21/2022": [
     "[add] Improve keyboard accessibility",
     "[fix] Animation flickering when opening changelog window on Safari",
     "[fix] Emojis couldn't be selected when they swapped places on some difficulty levels",
