@@ -32,7 +32,7 @@ function windows_terminal() {
     done
 
     powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden \
-        wt.exe "--window 0 new-tab --profile $WSL_DISTRO_NAME --title Portfolio \
+        wt.exe "--window 0 new-tab --profile $WSL_DISTRO_NAME --title MatchMoji \
                 --tabColor '#025338' --suppressApplicationTitle \
                 wsl.exe -e bash -c '"$ROOT/bin/$NAME" $args_trimmed\; exec bash'"
 }
