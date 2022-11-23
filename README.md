@@ -22,7 +22,7 @@ Register the NPM package registry:
 ```bash
 npm config set --location=project \
   @soberia:registry=https://npm.pkg.github.com \
-  //npm.pkg.github.com:_authToken=$'\u0067hp_EEWCmZStsbTAK9Cwymo8YfbnVGhphp0rdyBI'
+  //npm.pkg.github.com:_authToken=$'\u0067hp_9ovSHEBCq0drG42yKoam76iNybtqLN25CgSf'
 ```
 
 Install the package:
