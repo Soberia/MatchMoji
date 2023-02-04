@@ -57,7 +57,7 @@ export default function Modal(props: {
   useEffect(() => {
     // Preventing focusing outside of modal overlay
     props.panels.current!.setAttribute('inert', 'true');
-    return () => props.panels.current!.removeAttribute('inert');
+    return () => props.panels.current?.removeAttribute('inert');
   }, [props.panels]);
 
   useEffect(() => {
