@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/matchmoji/static/css/main.311c6be2.css",
-    "main.js": "/matchmoji/static/js/main.6fa202a9.js",
+    "main.js": "/matchmoji/static/js/main.19118f16.js",
     "static/media/noto-color-emoji-sbix.woff2": "/matchmoji/static/media/noto-color-emoji-sbix.c5f263c1a0a351bede58.woff2",
     "static/media/noto-color-emoji-colr1.woff2": "/matchmoji/static/media/noto-color-emoji-colr1.81dd2d38cd689fa1de96.woff2",
     "static/media/twemoji-colr0.woff2": "/matchmoji/static/media/twemoji-colr0.3d43aa244639e0f241aa.woff2",
@@ -13,10 +13,10 @@
     "index.html": "/matchmoji/index.html",
     "static/media/score-up.m4a": "/matchmoji/static/media/score-up.4d73b874f1547dd23776.m4a",
     "main.311c6be2.css.map": "/matchmoji/static/css/main.311c6be2.css.map",
-    "main.6fa202a9.js.map": "/matchmoji/static/js/main.6fa202a9.js.map"
+    "main.19118f16.js.map": "/matchmoji/static/js/main.19118f16.js.map"
   },
   "entrypoints": [
     "static/css/main.311c6be2.css",
-    "static/js/main.6fa202a9.js"
+    "static/js/main.19118f16.js"
   ]
 }
