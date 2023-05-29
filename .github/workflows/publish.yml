@@ -20,8 +20,8 @@ jobs:
       - name: Get the Package Version
         id: package-json
         run: |
-          echo ::set-output name=version::$(grep -Po \
-            '"version": "\K.*\d' package.json | echo "v$(cat -)")
+          echo version=$(grep -Po \
+            '"version": "\K.*\d' package.json | echo "v$(cat -)") >> $GITHUB_OUTPUT
 
       - name: Installing Build Requirements
         run: npm install
