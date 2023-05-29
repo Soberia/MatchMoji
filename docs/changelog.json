@@ -1,4 +1,7 @@
 {
+  "1.1.2 - 05/29/2023": [
+    "[misc] Prevent potential crashes on exit"
+  ],
   "1.1.1 - 02/04/2023": [
     "[fix] Crash on closing result window by back button"
   ],
