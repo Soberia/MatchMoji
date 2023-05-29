@@ -312,7 +312,7 @@ export default memo(
 
             window.setTimeout(() => {
               for (const index of reorderedIndices)
-                self.current!.children[index].removeAttribute('style');
+                self.current?.children[index].removeAttribute('style');
             }, 200);
 
             [state[indices[0]], state[indices[1]]] = [
