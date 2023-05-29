@@ -1,6 +1,6 @@
 {
   "name": "@soberia/matchmoji",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Simple fun game with emojis. Just look for identical emojis before running out of time!",
   "license": "MIT",
   "private": false,
